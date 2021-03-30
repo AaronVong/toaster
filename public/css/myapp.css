@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    width: 100%;
+    height: 100%;
+}
+
+.app {
+    border: 1px solid black;
+    height: 100%;
+}
+
+.app > div:nth-child(-n + 2) {
+    box-sizing: border-box;
+    border-right: 1px solid #6b7280;
+}
+
+.app__nav {
+    height: 900px;
+}
+
+.navbar__items {
+    z-index: 3;
+}
+
+.navbar__items a:hover {
+    color: #3b82f6;
+}
+
+.pill-hover {
+    position: relative;
+    padding: 0 0.75rem;
+}
+
+.pill-hover:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #3b83f61f;
+    left: 0%;
+    top: 0;
+    border-radius: 25px;
+    z-index: -1;
+    display: none;
+}
+
+.pill-hover:hover::before {
+    display: block;
+}
+
+.user-control__dots button:hover i {
+    color: white;
+}
+
+.user-control__controls {
+    position: absolute;
+    bottom: 110%;
+    left: 0;
+    width: 250px;
+    height: auto;
+    box-shadow: 0 0 5px 1px white;
+    display: flex;
+    align-items: center;
+    border-bottom: 10px solid black;
+    display: none;
+}
+
+.user-control__controls button:hover {
+    background-color: #6b7280;
+}
+
+.actions__like button:hover {
+    text-shadow: 0 0 5px #db2777;
+}
+.actions__comment button:hover i {
+    text-shadow: 0 0 5px #4f46e5;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 11;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal__content {
+    background-color: black;
+    padding: 20px;
+    border: 1px solid #888;
+}
+
+.modal__close {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal__close:hover,
+.modal__close:focus {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.emoji-picker-panel {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    z-index: 12;
+}
+
+.disabled-btn {
+    background-color: #3b82f6 !important;
+}
+
+.profile-nav > ul li > a {
+    color: #3b82f6;
+}
+
+.active-link {
+    color: white !important;
+    background-color: #3b82f6 !important;
+}
+
+.profile-nav > ul li > a.pill-hover:before {
+    border-radius: 0 !important;
+}

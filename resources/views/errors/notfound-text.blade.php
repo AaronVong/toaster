@@ -1,0 +1,1 @@
+<h1 class="text-4xl text-center py-4">Not Found</h1>
