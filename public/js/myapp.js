@@ -12,7 +12,7 @@ $(document).ready(() => {
     let emojiOpenBtn = $(".emoji-picker-btn");
     let emojiPanel = $(".emoji-picker-panel");
     let layer = $("#layer");
-    let useUpdateBtn = $("#updateuser");
+    let userUpdateBtn = $("#updateuser");
 
     /*logout menu*/
     navUserControl.click(() => {
@@ -149,15 +149,15 @@ $(document).ready(() => {
                     console.log(data["error"]);
                 }
                 $("#toast-dashboard").html(data["html"]);
+                $(".actions__like").click(likeAndUnlike);
             },
         });
     });
 
-    // like and unlike bằng ajax
-    $(".actions__like").submit((e) => {
+    let likeAndUnlike = (e) => {
         e.preventDefault();
         const target = e.currentTarget;
-        const token = $(".actions__like input[name='_token']").val();
+        const token = $("meta[name='csrf-token']").attr("content");
         let ok = false;
         let count = parseInt(target.nextElementSibling.innerText);
         $.ajax({
@@ -182,7 +182,8 @@ $(document).ready(() => {
                             : action === "liked"
                             ? "DELETE"
                             : null;
-                    const route = target.getAttribute("action");
+                    console.log(method);
+                    const route = $(target).data("route");
                     if (method == null) {
                         return;
                     }
@@ -198,9 +199,7 @@ $(document).ready(() => {
                                 return;
                             }
                             if (data["result"]) {
-                                $(target)
-                                    .children("button[type='submit']")
-                                    .html(html);
+                                $(target).html(html);
                                 $(target).data("like", data["result"]);
                                 if (data["result"] == "like") {
                                     count -= 1;
@@ -217,9 +216,7 @@ $(document).ready(() => {
                             }
                         },
                         complete: () => {
-                            $(target)
-                                .children("button[type='submit']")
-                                .prop("disabled", false);
+                            $(target).prop("disabled", false);
                         },
                     }).fail(() => {
                         console.log("Fail");
@@ -227,5 +224,8 @@ $(document).ready(() => {
                 }
             },
         });
-    });
+    };
+
+    // like and unlike bằng ajax
+    $(".actions__like").click(likeAndUnlike);
 });

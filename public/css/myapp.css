@@ -138,3 +138,24 @@ html {
 .profile-nav > ul li > a.pill-hover:before {
     border-radius: 0 !important;
 }
+
+.fa-heart {
+    position: relative;
+}
+
+.fa-heart:after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    border-radius: 50%;
+    background-color: rgba(218, 59, 86, 0.2);
+    display: none;
+}
+
+.fa-heart:hover:after {
+    display: block;
+}

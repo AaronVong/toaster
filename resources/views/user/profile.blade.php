@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <nav class="profile-nav h-12 border-b-2 border-blue-500">
+        <nav class="profile-nav h-12 border-b-4 border-blue-500">
             <ul class="list-none flex h-full">
                 <li class="h-full"><a href="{{ route('user.show',$user) }}" class="block pill-hover p-5 w-full h-full flex items-center text-xl font-bold hover:text-blue-500 active-link">Toasts</a></li>
                 <li class="h-full"><a href="{{ route('user.show.likedtoasts', $user) }}" class="block pill-hover p-5 w-full h-full flex items-center text-xl font-bold hover:text-blue-500">Liked Toasts</a></li>

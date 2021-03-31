@@ -1,1 +1,32 @@
- 
+/****************** BUGs ******************/ 
+1. Like trong profile sau khi chuyển tab
+* Mô tả:
+    - Trong profile, khi chuyển tab, thì khi nhấn 'like' nó sẽ load lại trang và không thực hiện like
+
+* Mong muốn:
+    - Like được bình thường bằng ajax, không bị load lại trang khi chuyển tab
+
+* Nguyên nhân:
+    - vì sử dụng html()
+
+* Tình trạng: 
+    - Đã giải quyết
+
+* Giải pháp: 
+    - đưa click function thành một function riêng thay vì là callback trực tiếp.
+    let likeAndUnlike = (e) => {...}
+    $(".actions__like").click(likeAndUnlike);
+    Sau đó gọi lại $(".actions__like").click(likeAndUnlike); ngay sau phương thức html() hoặc innerHTML
+
+
+2. Không vào đúng tab nếu truy cập bằng đường dẫn
+* Mô tả:
+    - Nêu truy cập tab "Liked Toasts" bằng đường dẫn (trên thanh địa chỉ)
+    vd: http://127.0.0.1:8000/user/yzikk/likedtoasts
+    thay vì UI hiện thị đang ở tab "Liked Toasts" thì nó lại hiện thị đang ở tab "Toasts",
+    nhưng dữ liệu vẫn load đúng của "Liked Toasts"
+
+* Mong muốn:
+    - UI hiện thị đúng vị trí tab khi truy cập bằng đường dẫn.
+
+

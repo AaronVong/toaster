@@ -31,19 +31,13 @@
                 @auth
                     <div class="flex mr-6">
                         @if(!$toast->likedBy(auth()->user()))
-                        <form class="actions__like mr-3" method="post" action="{{ route('like.create',$toast) }}" data-like="like">
-                            @csrf
-                                <button class="focus:outline-none text-pink-600" type="submit">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                        </form>
+                        <div class="actions__like mr-3 cursor-pointer focus:outline-none text-pink-600" role="submit" data-route="{{ route('like.create',$toast) }}" data-like="like">
+                            <i class="far fa-heart"></i>
+                        </div>
                         @else
-                            <form class="actions__like mr-3" method="post" action="{{ route('like.destroy',$toast) }}" data-like="liked">
-                                @csrf
-                                <button class="focus:outline-none text-pink-600" type="submit">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                            </form>
+                            <div class="actions__like mr-3 cursor-pointer focus:outline-none text-pink-600" role="submit" data-route="{{ route('like.destroy',$toast) }}" data-like="liked">
+                                <i class="fas fa-heart"></i>
+                            </div>
                         @endif
                         <span style="font-size: 10px" class="p-0 m-0 count">{{ $toast->likes->count()  }} {{ Str::plural('', $toast->likes->count()) }}</span>
                     </div>
