@@ -40,6 +40,7 @@ Route::get("/toast",[ToastController::class,'index'])->name('toast');
 Route::get('/toast/{toast}',[ToastController::class,'showToast'])->name("toast.show");
 Route::post("/toast",[ToastController::class,'store'])->name("toast.create");
 Route::delete("/toast/{toast}/delete", [ToastController::class,"destroy"])->name("toast.delete");
+Route::put("/toast/{toast:id}}/update",[ToastController::class,"update"])->name("toast.update");
 
 Route::get("/toastlike/{toast:id}",[ToastLikeController::class,"index"])->name("like.index");
 Route::post("/toastlike/{toast:id}", [ToastLikeController::class, "store"])->name("like.create");

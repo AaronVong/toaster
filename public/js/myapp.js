@@ -13,17 +13,19 @@ $(document).ready(() => {
     let emojiPanel = $(".emoji-picker-panel");
     let layer = $("#layer");
     let userUpdateBtn = $("#updateuser");
+    let toastDots = $(".toast__dots");
+    let toastTools = $(".toast__tools");
 
     /*logout menu*/
     navUserControl.click(() => {
         userControls.toggle();
     });
 
-    /* window click */
-    $(window).click((event) => {
-        const target = $(event.target);
+    let closeModal = (event) => {
+        console.log("clicked");
+        //const target = $(event.target);
         // đóng modal khi click bên ngoài
-        if (target.prop("id") == modalId && modalId !== "") {
+        if ($(event.target).prop("id") == modalId && modalId !== "") {
             if (isEmojipanelOpen) {
                 emojiPanel.hide();
                 isEmojipanelOpen = false;
@@ -34,21 +36,21 @@ $(document).ready(() => {
             modalId = "";
         }
 
-        if (target.prop("id") == "layer") {
+        if ($(event.target).prop("id") == "layer") {
             emojiPanel.hide();
             isEmojipanelOpen = false;
-            target.hide();
+            $(event.target).hide();
+            $(".toast__tools").hide();
         }
 
-        if (
-            event.target.classList.contains("modal__content") &&
-            isEmojipanelOpen
-        ) {
+        if ($(event.target).hasClass("modal__content") && isEmojipanelOpen) {
             emojiPanel.hide();
             isEmojipanelOpen = false;
             layer.hide();
         }
-    });
+    };
+    /* window click */
+    $(window).click(closeModal);
     /* Modal */
     modalBtn.mouseup((e) => {
         // hiện modal
@@ -150,6 +152,8 @@ $(document).ready(() => {
                 }
                 $("#toast-dashboard").html(data["html"]);
                 $(".actions__like").click(likeAndUnlike);
+                $(".toast__dots").click(openTools);
+                $(window).click(closeModal);
             },
         });
     });
@@ -228,4 +232,54 @@ $(document).ready(() => {
 
     // like and unlike bằng ajax
     $(".actions__like").click(likeAndUnlike);
+
+    const openTools = (e) => {
+        e.preventDefault();
+        $(e.currentTarget.nextElementSibling).toggle();
+        layer.toggle();
+    };
+
+    toastDots.click(openTools);
+
+    userUpdateBtn.click((e) => {
+        e.preventDefault();
+        const action = $("#updateuser-form").attr("action");
+        const method = "PUT";
+        const token = $("meta[name='csrf-token']").attr("content");
+        $.ajax({
+            url: "http://127.0.0.1:8000/login/check",
+            type: "GET",
+            success: (data) => {
+                if (data["isLogin"]) {
+                    $.ajax({
+                        headers: {
+                            "X-CSRF-TOKEN": token,
+                        },
+                        type: method,
+                        url: action,
+                        data: $("#updateuser-form").serialize(),
+                        success: (data) => {
+                            if (data["isFailed"]) {
+                                console.log(data["error"]);
+                                const errors = data["error"];
+                                let x;
+                                for (x in errors) {
+                                    $(
+                                        `#updateuser-form span[name='error-${x}']`
+                                    ).text(errors[x]);
+                                }
+                            } else {
+                                alert("Cập nhật thành công");
+                                window.location.reload();
+                            }
+                        },
+                        error: (xhr, status) => {
+                            console.log("status: " + status);
+                            console.log("request failed");
+                        },
+                    });
+                }
+            },
+        });
+    });
 });

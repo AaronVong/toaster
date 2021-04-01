@@ -18,6 +18,7 @@ class UserController extends Controller
     }
 
     public function updateUser($id, Request $request){
+        if(!$request->ajax()) return back();
         $user = User::find($id);
         $this->authorize('update',$user);
         $validator = Validator::make($request->all(),[
@@ -26,10 +27,13 @@ class UserController extends Controller
             "date" =>"required|date",
             "password" => "max:255",
         ],[
-            "required" => ":attribute không thể để trống",
-            "digits_between" => ":attribute Chỉ chứa rối đa từ :min - :max ký số",
-            "date" => ":attribute không hợp lệ",
-            "max" => ":attribute chỉ có thể chứa tối đa :max ký tự"
+            "name.required" => "Tên không thể để trống",
+            "phone.required" => "Số điện thoại không thể để trống",
+            "date.required" => "Ngày sinh không thể để trống",
+            "phone.digits_between" => "Số điện thoại chỉ có tối đa từ :min - :max số",
+            "date.date" => "Định dạng ngày không hợp lệ",
+            "name.max" => "Tên chỉ có thể chứa tối đa :max ký tự",
+            "password.max" => "Mật khẩu chỉ có thể chứa tối đa :max ký tự"
         ]);
 
         if(!$validator->fails()){
@@ -41,7 +45,7 @@ class UserController extends Controller
             }
             $user->save();
         }
-        return response()->json(["error" => $validator->failed()],200, ["Content-Type"=>"json/application"]);
+        return response()->json(["error" => $validator->getMessageBag(),"isFailed"=>$validator->fails()],200, ["Content-Type"=>"json/application"]);
     }
 
     // lấy tất cả toast của user

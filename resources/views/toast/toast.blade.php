@@ -8,17 +8,36 @@
                 <a href="{{ route('user.show', $toast->user) }}" class="mr-2 hover:underline text-white font-bold"><span class="">{{$toast->user->name}}</span></a>
                 <span class='italic mr-2'>{{$toast->user->username}}</span>
                 <span class="text-gray-700 time">{{$toast->created_at->diffForHumans()}}</span>
-                @auth
-                    @can('delete', $toast)
-                        <form action="{{ route('toast.delete', $toast) }}" method="post" class="inline-block ml-auto">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-gray-600 hover:text-red-500 focus:outline-none">
-                                <i class="far fa-trash-alt"></i>
-                            </button>
-                        </form>
-                    @endcan
-                @endauth
+                <div class="inline-block relative ml-auto">
+                    <span class="cursor-pointer hover:text-gray-400 toast__dots"><i class="fas fa-ellipsis-h"></i></span>
+                    <div class="absolute flex flex-col top-full right-0 items-center w-64 bg-gray-900 rounded-lg z-10 hidden toast__tools">
+                        @auth
+                            @can('delete', $toast)
+                                <form action="{{ route('toast.delete', $toast) }}" method="post" class="block my-3 text-center">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-gray-600 hover:text-red-400 focus:outline-none w-full">
+                                        <i class="far fa-trash-alt"></i>
+                                        Xóa toast
+                                    </button>
+                                </form>
+                            @endcan
+                            <div class="my-3 text-center">
+                                <div class="cursor-pointer text-gray-600 hover:text-blue-400 focus:outline-none" data-route="{{route('toast.update',$toast)}}" data-action='toast.update'>
+                                    <i class="far fa-edit"></i>
+                                    Chỉnh sửa toast
+                                </div>
+                            </div>
+                        @endauth
+                        <div class="my-3 text-center">
+                            <div class="cursor-pointer">
+                                <a href="{{ route('toast.show', $toast) }}" class="text-gray-600 hover:text-gray-400 focus:outline-none">
+                                    <i class="far fa-eye"></i> Xem toast
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="header__content">
                 <a class="block w-full h-full py-4" href="{{ route('toast.show',$toast) }}">

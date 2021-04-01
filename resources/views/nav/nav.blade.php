@@ -45,7 +45,7 @@
                 <i class="fas fa-ellipsis-h"></i>
             </button>
         </div>
-        <div class="user-control__controls">
+        <div class="user-control__controls z-20">
             <form action="{{ route('logout.index') }}" method="post" class="w-full h-full">
                 @csrf
                 <button id="logout" class="w-full h-full px-2 py-3 z-50" type="submit">Logout <span>{{auth()->user()->username}}</span></button>

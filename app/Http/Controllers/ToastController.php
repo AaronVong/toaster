@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Toast;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class ToastController extends Controller
 {
@@ -33,6 +34,6 @@ class ToastController extends Controller
     function destroy(Toast $toast){
         $this->authorize('delete',$toast);
         $toast->delete();
-        return back();
+        return redirect()->route('home.index');
     }
 }

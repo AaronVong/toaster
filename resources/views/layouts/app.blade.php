@@ -49,7 +49,7 @@
         <div class="modal__content text-gray-300 w-full h-full lg:w-2/6 lg:h-auto lg:mt-12 lg:mx-auto">
             <span class="modal__close">&times;</span>
             <h1 class="text-3xl text-center">Chỉnh sửa thông tin cá nhân</h1>
-            <form class="block w-full flex flex-col justify-center" action="{{ route('user.update',auth()->user()) }}" method="post">
+            <form class="block w-full flex flex-col justify-center" id="updateuser-form" action="{{ route('user.update',auth()->user()) }}" method="post">
                 @csrf
                 @method("PUT")
                 <div class="mb-3">
@@ -57,44 +57,28 @@
                     <input type="text"
                         class="w-full lg:w-full h-12 rounded-full border p-3 bg-transparent focus:outline-none focus:border focus:border-blue-500"
                         id="name" name="name" placeholder="Họ tên" value="{{auth()->user()->name}}" placeholder="Họ tên">
-                    @error("name")
-                    <span class="text-red-600">
-                        {{$message}}
-                    </span>
-                @enderror
+                    <span class="text-red-600" name='error-name'></span>
                 </div>
                 <div class="mb-3">
                     <label>Số điện thoại:</label>
                     <input type="text"
                         class="w-full lg:w-full h-12 rounded-full border p-3 bg-transparent focus:outline-none focus:border focus:border-blue-500"
                         id="phone" name="phone" placeholder="Số điện thoại" value="{{auth()->user()->phone}}">
-                    @error("phone")
-                    <span class="text-red-600">
-                        {{$message}}
-                    </span>
-                @enderror
+                    <span class="text-red-600" name='error-phone'></span>
                 </div>
                 <div class="mb-3">
                     <label>Ngày sinh:</label>
                     <input type="date"
                         class="w-full lg:w-full h-12 rounded-full border p-3 bg-transparent focus:outline-none focus:border focus:border-blue-500"
                         name="date" value="{{auth()->user()->date}}">
-                    @error("date")
-                    <span class="text-red-600">
-                        {{$message}}
-                    </span>
-                    @enderror
+                    <span class="text-red-600" name='error-date'></span>
                 </div>
                 <div class="mb-3">
                     <label>Mật khẩu:</label>
                     <input type="password"
                         class="w-full lg:w-full h-12 rounded-full border p-3 bg-transparent focus:outline-none focus:border focus:border-blue-500"
                         id="password" name="password" placeholder="Để trống để giữ nguyên Password">
-                        @error("password")
-                    <span class="text-red-600">
-                        {{$message}}
-                    </span>
-                    @enderror
+                    <span class="text-red-600" name='error-password'></span>
                 </div>
                 <div class="mb-3 mx-auto">
                     <button type="submit" class="bg-blue-500 w-32 h-12 rounded-full hover:bg-blue-600 text-gray-300 focus:outline-none" id="updateuser">
