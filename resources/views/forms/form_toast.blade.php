@@ -3,18 +3,32 @@
         <img src="https://via.placeholder.com/50" class="block w-full rounded-full" />
     </div>
     <div class="w-full flex-shrink-1 flex-grow-1">
-        <form class="toast__form" method="post" action="{{ route('toast.create') }}">
-            @csrf
-            <div class="w-full h-full">
+        <form class="toast__form" method="post" action="{{ route('toast.create') }}" enctype="multipart/form-data">
+        @csrf    
+        <div class="w-full h-full">
                 <textarea placeholder="Toast somethings..."
                     class="bg-transparent w-full h-full resize-none outline-none p-3" name="content"></textarea>
+                @if($errors->toast->has("content"))
+                    <span class="text-red-400">{{$errors->taost->first('content')}}</span>
+                @endif
+
+                @if($errors->toast->has("images.*"))
+                    <span class="text-red-400">{{$errors->toast->first('images.*')}}</span>
+                @endif
+
+                @if($errors->toast->has("images"))
+                    <span class="text-red-400">{{$errors->toast->first('images')}}</span>
+                @endif
+                <div id="toast__form__preview" class="w-full grid grid-cols-2 grid-rows-auto md:grid-cols-3 lg:grid-cols-4 gap-1 h-auto">
+                </div>
+                <input class="toast__form__inputfile invisible" type="file" accept="image/*" multiple="multiple" name="images[]">
             </div>
             <div class="flex items-center toast__actions w-full py-1 px-3">
                 <ul class="flex">
                     <li class="mr-4">
-                        <button type="button" class="focus:outline-none text-blue-600 hover:text-blue-400">
+                        <div class="focus:outline-none text-blue-600 hover:text-blue-400 cursor-pointer" name='media'>
                             <i class="fas fa-photo-video"></i>
-                        </button>
+                        </div>
                     </li>
                     <li class="mr-4 relative">
                         <button type="button" class="focus:outline-none text-blue-600 emoji-picker-btn hover:text-blue-400">

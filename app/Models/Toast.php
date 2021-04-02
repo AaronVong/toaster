@@ -28,4 +28,8 @@ class Toast extends Model
     public function ownedBy(User $user){
         return $user->id == $this->user_id;
     }
+
+    public function toastImages(){
+        return $this->hasMany(ToastImages::class);
+    }
 }

@@ -18,7 +18,6 @@
     $(".actions__like").click(likeAndUnlike);
     Sau đó gọi lại $(".actions__like").click(likeAndUnlike); ngay sau phương thức html() hoặc innerHTML
 
-
 2. Không vào đúng tab nếu truy cập bằng đường dẫn
 * Mô tả:
     - Nêu truy cập tab "Liked Toasts" bằng đường dẫn (trên thanh địa chỉ)
@@ -29,4 +28,34 @@
 * Mong muốn:
     - UI hiện thị đúng vị trí tab khi truy cập bằng đường dẫn.
 
+* Tình trạng:
+ - Chưa giải quyết
+
+* Giải pháp:
+ - Chưa có
+
+
+3. Emoji picker trong 'Quick Toast' (trên thanh nav tay trái) bị tràn trên màn hình nhỏ
+* Mô tả:
+    - khi truy cập quick toast và mở emojipicker ở trạng thái màn hình nhỏ thì sẽ bị tràn layout
+
+* Mong  muốn:
+    - Emojipicker responsive ở bất cứ tỉ lệ màn hình nào.
+
+* Tình trạng:
+ - Chưa giải quyết
+
+* Giải pháp:
+ - Chưa có
+
+/****************** Need To Do ******************/ 
+1. Chỉnh Sửa Toasts (nội dung, hình ảnh)
+2. Cho phép remove hình trong màn hình preview khi viết Toast
+3. Chức năng Comment
+3. Chức năng kết bạn
+4. Chức năng tìm kiếm người dùng khác.
+5. Hiện thị toast trên bản tin dựa trên danh sách bạn bè
+6. Xem danh sách bạn bè
+7. Chức năng chia sẻ toast.
+8. Chức năng upload ảnh avatar cho user.
 

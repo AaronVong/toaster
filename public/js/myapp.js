@@ -22,7 +22,6 @@ $(document).ready(() => {
     });
 
     let closeModal = (event) => {
-        console.log("clicked");
         //const target = $(event.target);
         // đóng modal khi click bên ngoài
         if ($(event.target).prop("id") == modalId && modalId !== "") {
@@ -154,6 +153,14 @@ $(document).ready(() => {
                 $(".actions__like").click(likeAndUnlike);
                 $(".toast__dots").click(openTools);
                 $(window).click(closeModal);
+                $(".header__images").slick({
+                    infinite: false,
+                    adaptiveHeight: true,
+                    adaptiveWidth: true,
+                    dots: true,
+                    arrow: true,
+                    mobileFirst: true,
+                });
             },
         });
     });
@@ -281,5 +288,68 @@ $(document).ready(() => {
                 }
             },
         });
+    });
+
+    function previewFiles(files) {
+        var preview = document.querySelector("#toast__form__preview");
+        function readAndPreview(file) {
+            // Make sure `file.name` matches our extensions criteria
+            if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                var reader = new FileReader();
+
+                reader.addEventListener(
+                    "load",
+                    function () {
+                        var image = new Image();
+                        let div = document.createElement("div");
+                        let span = document.createElement("span");
+                        span.innerHTML = "&#10006;";
+                        span.classList.add("preview__item__remove");
+                        div.classList.add("relative", "preview__item");
+                        image.title = file.name;
+                        image.src = this.result;
+                        image.classList.add("w-full", "h-auto", "block");
+                        div.appendChild(image);
+                        div.appendChild(span);
+                        preview.appendChild(div);
+                    },
+                    false
+                );
+
+                reader.readAsDataURL(file);
+            }
+        }
+        if (files) {
+            [].forEach.call(files, readAndPreview);
+        }
+    }
+
+    $("div[name='media']").mouseup((e) => {
+        $(".toast__form__inputfile").first().trigger("click");
+    });
+
+    $(".toast__form__inputfile").change((e) => {
+        const files = e.currentTarget.files;
+        previewFiles(files);
+    });
+
+    $("#toast__form__preview div::before").click(() => {
+        console.log(click);
+    });
+
+    $(".preview__item__remove").click((e) => {
+        let files = document.getElementsByClassName("toast__form__inputfile")[0]
+            .files;
+        console.log(files.item(0));
+    });
+
+    $(".header__images").slick({
+        infinite: false,
+        adaptiveHeight: true,
+        adaptiveWidth: true,
+        dots: true,
+        arrows: true,
+        mobileFirst: true,
+        speed: 200,
     });
 });

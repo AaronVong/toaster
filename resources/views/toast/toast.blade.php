@@ -43,6 +43,20 @@
                 <a class="block w-full h-full py-4" href="{{ route('toast.show',$toast) }}">
                     {{$toast->content}}
                 </a>
+                <div class="grid grid-cols-12 py-2 gap-2">
+                    @php $count = count($toast->toastImages()->get()) @endphp
+                    @if($count > 2)
+                        <div class="header__images col-start-3 col-span-8 md:col-start-4 md:col-span-6 rounded-3xl ">
+                            @foreach($toast->toastImages()->get() as $image)
+                                <img src="{{asset('storage/toastimages/'.$image->imagename)}}" class="block max-w-full h-auto rounded-3xl">
+                            @endforeach
+                        </div>
+                    @else
+                        @foreach($toast->toastImages()->get() as $image)
+                            <img src="{{asset('storage/toastimages/'.$image->imagename)}}" class="block max-w-full h-auto rounded-3xl col-span-6">
+                        @endforeach
+                    @endif
+                </div>
             </div>
         </div>
         <div class="taost__body order-1">

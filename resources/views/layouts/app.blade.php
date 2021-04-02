@@ -8,10 +8,13 @@
     <title>Toaster</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/myapp.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/slick.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/slick-theme.css') }}">
     <script type="text/javascript" src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
     <script type="text/javascript" src="https://kit.fontawesome.com/d210984464.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ asset('js/myapp.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/infinite-scroll.pkgd.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/slick.min.js') }}"></script>
     <script type="module" src="{{ asset('js/index.js') }}"></script>
 </head>
 <body class="bg-black">

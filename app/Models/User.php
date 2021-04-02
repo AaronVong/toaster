@@ -57,4 +57,12 @@ class User extends Authenticatable
     public function recivedLikes(){
         return $this->hasManyThrough(Like::class, Toast::class);
     }
+
+    public function toastImages(){
+        return $this->hasMany(ToastImages::class);
+    }
+
+    public function uploadedImages(){
+        return $this->hasManyThrough(Toast::class, ToastImages::class);
+    }
 }

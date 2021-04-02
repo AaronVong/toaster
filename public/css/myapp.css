@@ -159,3 +159,20 @@ html {
 .fa-heart:hover:after {
     display: block;
 }
+
+#toast__form__preview div {
+    position: relative;
+}
+
+.preview__item__remove {
+    position: absolute;
+    content: "";
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    display: none;
+}
+
+#toast__form__preview div:hover .preview__item__remove {
+    display: block;
+}
