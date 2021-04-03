@@ -233,17 +233,13 @@ $(document).ready(() => {
 
     userUpdateBtn.click((e) => {
         e.preventDefault();
-        console.log($("#updateuser-form").serialize());
-        return;
-
         const action = $("#updateuser-form").attr("action");
-        const method = "PUT";
         const token = $("meta[name='csrf-token']").attr("content");
         $.ajax({
             headers: {
                 "X-CSRF-TOKEN": token,
             },
-            type: method,
+            type: "POST",
             url: action,
             data: $("#updateuser-form").serialize(),
             success: (data) => {
@@ -271,7 +267,6 @@ $(document).ready(() => {
     function previewFiles(files) {
         var preview = document.querySelector("#toast__form__preview");
         function readAndPreview(file) {
-            // Make sure `file.name` matches our extensions criteria
             if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
                 var reader = new FileReader();
                 reader.addEventListener(
