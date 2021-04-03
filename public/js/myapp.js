@@ -171,69 +171,52 @@ $(document).ready(() => {
         const token = $("meta[name='csrf-token']").attr("content");
         let ok = false;
         let count = parseInt(target.nextElementSibling.innerText);
+        const action = $(target).data("like");
+        let html =
+            action === "liked"
+                ? "<i class='far fa-heart'></i>"
+                : "<i class='fas fa-heart'></i>";
+        const method =
+            action === "like" ? "POST" : action === "liked" ? "DELETE" : null;
+        console.log(method);
+        const route = $(target).data("route");
+        if (method == null) {
+            return;
+        }
         $.ajax({
-            type: "GET",
-            url: "http://127.0.0.1:8000/login/check",
-            beforeSend: () => {
-                $(target)
-                    .children("button[type='submit']")
-                    .prop("disabled", true);
+            headers: {
+                "X-CSRF-TOKEN": token,
             },
+            url: route,
+            type: "POST",
+            data: { _method: method, _token: token },
             success: (data) => {
-                ok = data["isLogin"];
-                if (ok) {
-                    const action = $(target).data("like");
-                    let html =
-                        action === "liked"
-                            ? "<i class='far fa-heart'></i>"
-                            : "<i class='fas fa-heart'></i>";
-                    const method =
-                        action === "like"
-                            ? "POST"
-                            : action === "liked"
-                            ? "DELETE"
-                            : null;
-                    console.log(method);
-                    const route = $(target).data("route");
-                    if (method == null) {
-                        return;
+                if (data["error"].length > 0) {
+                    console.log(data["error"]);
+                    return;
+                }
+                if (data["result"]) {
+                    $(target).html(html);
+                    $(target).data("like", data["result"]);
+                    if (data["result"] == "like") {
+                        count -= 1;
                     }
-                    $.ajax({
-                        headers: {
-                            "X-CSRF-TOKEN": token,
-                        },
-                        url: route,
-                        type: method,
-                        success: (data) => {
-                            if (data["error"].length > 0) {
-                                console.log(data["error"]);
-                                return;
-                            }
-                            if (data["result"]) {
-                                $(target).html(html);
-                                $(target).data("like", data["result"]);
-                                if (data["result"] == "like") {
-                                    count -= 1;
-                                }
-                                if (data["result"] == "liked") {
-                                    count += 1;
-                                }
-                                $(target.nextElementSibling).text(count);
-                                if (count == 0) {
-                                    $(target.nextElementSibling).hide();
-                                } else {
-                                    $(target.nextElementSibling).show();
-                                }
-                            }
-                        },
-                        complete: () => {
-                            $(target).prop("disabled", false);
-                        },
-                    }).fail(() => {
-                        console.log("Fail");
-                    });
+                    if (data["result"] == "liked") {
+                        count += 1;
+                    }
+                    $(target.nextElementSibling).text(count);
+                    if (count == 0) {
+                        $(target.nextElementSibling).hide();
+                    } else {
+                        $(target.nextElementSibling).show();
+                    }
                 }
             },
+            complete: () => {
+                $(target).prop("disabled", false);
+            },
+        }).fail(() => {
+            console.log("Fail");
         });
     };
 
@@ -250,42 +233,37 @@ $(document).ready(() => {
 
     userUpdateBtn.click((e) => {
         e.preventDefault();
+        console.log($("#updateuser-form").serialize());
+        return;
+
         const action = $("#updateuser-form").attr("action");
         const method = "PUT";
         const token = $("meta[name='csrf-token']").attr("content");
         $.ajax({
-            url: "http://127.0.0.1:8000/login/check",
-            type: "GET",
+            headers: {
+                "X-CSRF-TOKEN": token,
+            },
+            type: method,
+            url: action,
+            data: $("#updateuser-form").serialize(),
             success: (data) => {
-                if (data["isLogin"]) {
-                    $.ajax({
-                        headers: {
-                            "X-CSRF-TOKEN": token,
-                        },
-                        type: method,
-                        url: action,
-                        data: $("#updateuser-form").serialize(),
-                        success: (data) => {
-                            if (data["isFailed"]) {
-                                console.log(data["error"]);
-                                const errors = data["error"];
-                                let x;
-                                for (x in errors) {
-                                    $(
-                                        `#updateuser-form span[name='error-${x}']`
-                                    ).text(errors[x]);
-                                }
-                            } else {
-                                alert("Cập nhật thành công");
-                                window.location.reload();
-                            }
-                        },
-                        error: (xhr, status) => {
-                            console.log("status: " + status);
-                            console.log("request failed");
-                        },
-                    });
+                if (data["isFailed"]) {
+                    console.log(data["error"]);
+                    const errors = data["error"];
+                    let x;
+                    for (x in errors) {
+                        $(`#updateuser-form span[name='error-${x}']`).text(
+                            errors[x]
+                        );
+                    }
+                } else {
+                    alert("Cập nhật thành công");
+                    window.location.reload();
                 }
+            },
+            error: (xhr, status) => {
+                console.log("status: " + status);
+                console.log("request failed");
             },
         });
     });
@@ -296,7 +274,6 @@ $(document).ready(() => {
             // Make sure `file.name` matches our extensions criteria
             if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
                 var reader = new FileReader();
-
                 reader.addEventListener(
                     "load",
                     function () {

@@ -49,6 +49,7 @@ class ToastController extends Controller
                 $filename = $uname.$dt->format("YmdHis").$key.".".$extension;
                 $createdToast->toastImages()->create(["user_id" => $uid, "imagename"=> $filename]);
                 $file->storeAs("toastimages", $filename, "public");
+                // Storage::putFileAs("public/toastimages",$file,$filename);
             }
         }
         return back();  
@@ -56,9 +57,12 @@ class ToastController extends Controller
 
     function destroy(Toast $toast){
         $this->authorize('delete',$toast);
-        $images = $toast->toastImages()->get(["fname"]);
+        $images = $toast->toastImages()->get(["imagename"]);
         foreach($images as $image){
-            Storage::disk("public")->delete("postimages/".$image->fname);
+            if(Storage::disk("public")->exists("toastimages/".$image->imagename)){
+                Storage::disk("public")->delete("toastimages/".$image->imagename);
+            }
+            
         }
         $toast->toastImages()->delete();
         $toast->likes()->delete();
