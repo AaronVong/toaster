@@ -8,16 +8,24 @@
 
     <!-- App Contents -->
     <div class="col-span-3 lg:col-span-2 relative">
-        <div class="w-full flex divide-x divide-gray-500 p-3 bg-gray-900">
-            <div class="flex-shrink-0 flex-grow-0 w-1/6">
-                <div class="toast__left flex-grow-0 flex-shrink-0 max-w-xs px-2 pt-2">
-                    <img src="https://via.placeholder.com/50" class="block w-full rounded-full" />
+        <div class="w-full flex divide-x divide-gray-500 bg-gray-900">
+            <div class="flex-shrink-0 flex-grow-0 w-2/6 md:w-1/6">
+                <div class="toast__left flex-grow-0 flex-shrink-0 max-w-xs pt-2 h-full flex justify-center">
+                    @if($user->image !== null && $user->image !== '')
+                        <div class="w-24 h-24 flex items-center justify-center">
+                            <img src="{{ asset('storage/userimages/'.$user->image)}}" class="block w-full h-full rounded-full" />
+                        </div>
+                    @else
+                        <div class="w-16 h-16 flex items-center justify-center">
+                            <img src="https://via.placeholder.com/50" class="block w-full h-full rounded-full" />
+                        </div>
+                    @endif
                 </div>
             </div>
-            <div class="flex-shrink-1 flex-grow-1 w-5/6">
+            <div class="flex-shrink-1 flex-grow-1 w-4/6 md:w-5/6 py-2">
                 <div class="card w-full">
                     <div class="w-full">
-                        <ul class="list-none px-2 py-4">
+                        <ul class="list-none px-2">
                             <li><span class="font-bold text-lg">{{ $user->name }}</span></li>
                             <li><span class="font-bold">{{ $user->username }}</span></li>
                             <li><span class="text-gray-500">Tham gia: </span> <span class="font-bold">{{ $user->created_at }}</span></li>
@@ -38,6 +46,18 @@
                             @can('update',$user)
                                 <button type="button" class="modal__btn focus:outline-none bg-gray-500 rounded-full p-2 w-32 text-white hover:bg-gray-600" modal="editprofile">Chỉnh sửa</button>
                             @endcan
+                            
+                            @can('follow', $user)
+                                @if(auth()->user()->followed($user->id))
+                                    <button type="button" class="follow__btn focus:outline-none bg-blue-500 rounded-full p-2 w-32 h-12 text-white hover:bg-blue-600 capitalize followed" data-follow="unfollow" data-user='{{$user->id}}'>
+                                        <span class="follow__state">Following</span>
+                                    </button>
+                                @else
+                                    <button type="button" class="follow__btn focus:outline-none bg-blue-500 rounded-full p-2 w-32 h-12 text-white hover:bg-blue-600 capitalize" data-follow="follow" data-user='{{$user->id}}'>
+                                        <span class="follow__state">Follow</span>
+                                    </button>
+                                @endif
+                            @endcan
                         </div>
                     @endauth
                 </div>
@@ -54,7 +74,7 @@
         </section>
     </div>
     <!-- Sidebar -->
-    <div id="sidebar" class="relative grid-cols-1">
+    <div id="sidebar" class="relative grid-cols-1 hidden lg:block">
         @include('sidebar.sidebar')
     </div>
 </div>

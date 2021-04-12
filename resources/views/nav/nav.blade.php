@@ -9,9 +9,15 @@
                 <span class="font-bold hidden lg:inline-block">Home</span>
             </a>
         </li>
+        <li class="navbar__items relative mb-6 lg:w-4/6 h-12">
+            <a href="{{route('home.explore')}}" class="flex items-center w-full h-full pill-hover">
+                <i class="fab fa-slack fa-2x lg:w-2/6"></i>
+                <span class="font-bold hidden lg:inline-block">Explore</span>
+            </a>
+        </li>
         @auth
         <li class="navbar__items mb-6 lg:w-4/6 h-12">
-            <a href="#" class="flex items-center w-full h-full pill-hover">
+            <a href="{{ route('error.notready') }}" class="flex items-center w-full h-full pill-hover">
                 <i class="far fa-envelope fa-2x lg:w-2/6"></i>
                 <span class="font-bold hidden lg:inline-block">Messages</span>
             </a>

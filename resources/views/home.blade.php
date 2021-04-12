@@ -16,7 +16,7 @@
         </section>
     </div>
     <!-- Sidebar -->
-    <div id="sidebar" class="relative grid-cols-1 hidden lg:block">
+    <div id="sidebar" class="relative grid-cols-1 lg:block hidden">
         @include('sidebar.sidebar')
     </div>
 </div>

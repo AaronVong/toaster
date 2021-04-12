@@ -1,6 +1,14 @@
-<div class="w-full flex border-b-4 border-gray-500">
-    <div class="flex-shrink-0 flex-grow-0 max-w-xs px-2 pt-2">
-        <img src="https://via.placeholder.com/50" class="block w-full rounded-full" />
+<div class="w-full flex border-b-4 border-gray-500 px-3">
+    <div class="flex-shrink-0 flex-grow-0 max-w-xs pt-2">
+        @if(auth()->user()->image !== null && auth()->user()->image !== '')
+        <div class="w-16 h-16 flex items-center justify-center">
+            <img src="{{ asset('storage/userimages/'.auth()->user()->image)}}" class="block w-full h-full rounded-full" />
+        </div>
+        @else
+            <div class="w-16 h-16 flex items-center justify-center">
+                <img src="https://via.placeholder.com/50" class="block w-full rounded-full" />
+            </div>
+        @endif
     </div>
     <div class="w-full flex-shrink-1 flex-grow-1">
         <form class="toast__form" method="post" action="{{ route('toast.create') }}" enctype="multipart/form-data">
@@ -9,7 +17,7 @@
                 <textarea placeholder="Toast somethings..."
                     class="bg-transparent w-full h-full resize-none outline-none p-3" name="content"></textarea>
                 @if($errors->toast->has("content"))
-                    <span class="text-red-400">{{$errors->taost->first('content')}}</span>
+                    <span class="text-red-400">{{$errors->toast->first('content')}}</span>
                 @endif
 
                 @if($errors->toast->has("images.*"))

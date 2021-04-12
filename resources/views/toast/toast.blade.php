@@ -1,6 +1,14 @@
 <div class="toast max-w-full flex border-b border-gray-500 p-2">
     <div class="toast__left flex-grow-0 flex-shrink-0 max-w-xs px-2 pt-2">
-        <img src="https://via.placeholder.com/50" class="block w-full rounded-full" />
+        @if($toast->user->image !== null && $toast->user->image !== '')
+            <div class="w-16 h-16 flex items-center justify-center">
+                <img src="{{ asset('storage/userimages/'.$toast->user->image)}}" class="block w-full h-full rounded-full" />
+            </div>
+        @else
+            <div class="w-16 h-16 flex items-center justify-center">
+                <img src="https://via.placeholder.com/50" class="block w-full h-full rounded-full" />
+            </div>
+        @endif
     </div>
     <div class="toast__right w-full flex-shrink-1 flex-grow-1">
         <div class="toast__header order-2 py-2 px-1">
@@ -59,7 +67,7 @@
                 </div>
             </div>
         </div>
-        <div class="taost__body order-1">
+        <div class="toast__body order-1">
             <div class="body__actions flex py-2">
                 @auth
                     <div class="flex mr-6">
@@ -74,12 +82,13 @@
                         @endif
                         <span style="font-size: 10px" class="p-0 m-0 count">{{ $toast->likes->count()  }} {{ Str::plural('', $toast->likes->count()) }}</span>
                     </div>
-                    <form class="actions__comment mr-3">
+                    <div class="actions__comment mr-3">
                         @csrf
-                        <button class="focus:outline-none text-indigo-600" type="submit">
+                        <button class="modal__btn focus:outline-none text-indigo-600" type="button" modal='comment'>
                             <i class="fas fa-comment"></i>
                         </button>
-                    </form>
+                    </div>
+                    @include('modals.comment', ['toast_id'=>$toast->id, "user" => $toast->user, 'comment_id' => null])
                 @endauth
                 @guest
                     <div class="inline-block mr-3">

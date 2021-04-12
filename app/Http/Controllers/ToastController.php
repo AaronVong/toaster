@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Toast;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-
 class ToastController extends Controller
 {
     function __construct()
@@ -17,8 +15,20 @@ class ToastController extends Controller
     }
 
     function index(){
-        return back();
+        $toasts = Toast::latest()->with(['user','likes'])->simplePaginate(6);
+        if(auth()->user()){
+            $followingUsers = auth()->user()->followings()->pluck('user_follows.follow_id');
+            if(count($followingUsers) > 0)
+                $toasts = Toast::latest()->whereIn("user_id", $followingUsers)->orWhere('user_id', auth()->user()->id)->simplePaginate(6);
+        }  
+        return view("home",['toasts'=>$toasts]);
     }
+
+    function explore(){
+        $toasts = Toast::latest()->with(['user','likes'])->simplePaginate(6);
+        return view("home", ["toasts" => $toasts]);
+    }
+    
     function showToast(Toast $toast){
         return view('toast.showtoast',["toast"=>$toast]);
     }
@@ -35,7 +45,6 @@ class ToastController extends Controller
             "images.max" =>"Tối đa :max hình được phép upload",
         ])->validateWithBag('toast');
 
-
         $createdToast = $request->user()->toasts()->create([
             "content"=>$request->content,
         ]);
@@ -49,7 +58,6 @@ class ToastController extends Controller
                 $filename = $uname.$dt->format("YmdHis").$key.".".$extension;
                 $createdToast->toastImages()->create(["user_id" => $uid, "imagename"=> $filename]);
                 $file->storeAs("toastimages", $filename, "public");
-                // Storage::putFileAs("public/toastimages",$file,$filename);
             }
         }
         return back();  
@@ -61,11 +69,10 @@ class ToastController extends Controller
         foreach($images as $image){
             if(Storage::disk("public")->exists("toastimages/".$image->imagename)){
                 Storage::disk("public")->delete("toastimages/".$image->imagename);
-            }
-            
+            }            
         }
-        $toast->toastImages()->delete();
-        $toast->likes()->delete();
+        // $toast->toastImages()->delete();
+        // $toast->likes()->delete();
         $toast->delete();
         return redirect()->route('home.index');
     }

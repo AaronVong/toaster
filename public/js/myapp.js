@@ -16,13 +16,16 @@ $(document).ready(() => {
     let toastDots = $(".toast__dots");
     let toastTools = $(".toast__tools");
 
+    $(".reply-btn").click((e) => {
+        $(e.currentTarget).next().toggle();
+    });
     /*logout menu*/
     navUserControl.click(() => {
         userControls.toggle();
     });
 
+    // đóng modal đang được mở khi click bên ngoài
     let closeModal = (event) => {
-        //const target = $(event.target);
         // đóng modal khi click bên ngoài
         if ($(event.target).prop("id") == modalId && modalId !== "") {
             if (isEmojipanelOpen) {
@@ -48,21 +51,24 @@ $(document).ready(() => {
             layer.hide();
         }
     };
-    /* window click */
+
+    /* khi click bên ngoài thực thi fnc đóng modal */
     $(window).click(closeModal);
-    /* Modal */
-    modalBtn.mouseup((e) => {
-        // hiện modal
+
+    /* hiện thị modal dựa trên attr cho cho trước */
+    modalBtn.click((e) => {
         modalId = e.currentTarget.getAttribute("modal");
         $(`#${modalId}`).show();
     });
 
+    // đóng modal khi nhấn x
     clostBtn.click(() => {
-        // đóng modal khi nhấn đóng
         modal.hide();
         modalId = "";
     });
+
     /* Cuộn để load thêm toast */
+    $("nav[role='navigation']").hide();
     toastsDashboard.infiniteScroll({
         path: "a[rel='next']",
         append: ".toast",
@@ -95,7 +101,7 @@ $(document).ready(() => {
         $(".profile__hidden-info").slideToggle();
     });
 
-    // mở emoji panel
+    // Mở Emoji pane
     let isEmojipanelOpen = false;
     emojiOpenBtn.click((e) => {
         let target = e.currentTarget;
@@ -110,7 +116,7 @@ $(document).ready(() => {
         toastFormTextarea.focus();
     });
 
-    // nối emoji vừa chòn vào textarea
+    // nối emoji vừa chọn vào chuỗi
     $("emoji-picker").on("emoji-click", (e) => {
         let emoji = e.detail["unicode"];
         let value = toastFormTextarea.val();
@@ -150,21 +156,11 @@ $(document).ready(() => {
                     console.log(data["error"]);
                 }
                 $("#toast-dashboard").html(data["html"]);
-                $(".actions__like").click(likeAndUnlike);
-                $(".toast__dots").click(openTools);
-                $(window).click(closeModal);
-                $(".header__images").slick({
-                    infinite: false,
-                    adaptiveHeight: true,
-                    adaptiveWidth: true,
-                    dots: true,
-                    arrow: true,
-                    mobileFirst: true,
-                });
             },
         });
     });
 
+    // hàm xử lý like và unlike bằng ajax
     let likeAndUnlike = (e) => {
         e.preventDefault();
         const target = e.currentTarget;
@@ -220,18 +216,22 @@ $(document).ready(() => {
         });
     };
 
-    // like and unlike bằng ajax
-    $(".actions__like").click(likeAndUnlike);
+    // bắt sự kiện like và unlike
+    $("#toast-dashboard").on("click", ".actions__like", likeAndUnlike);
 
+    // mở menu tools cửa một toast
     const openTools = (e) => {
         e.preventDefault();
         $(e.currentTarget.nextElementSibling).toggle();
         layer.toggle();
     };
 
-    toastDots.click(openTools);
+    // bắt sự kiện mở tools cảu một toast
+    $("#toast-dashboard").on("click", ".toast__dots", openTools);
 
+    // cập nhật thông tin cá nhân bằng ajax (không dùng)
     userUpdateBtn.click((e) => {
+        return;
         e.preventDefault();
         const action = $("#updateuser-form").attr("action");
         const token = $("meta[name='csrf-token']").attr("content");
@@ -264,6 +264,7 @@ $(document).ready(() => {
         });
     });
 
+    // hàm hiện thị hình ảnh vừa upload lên
     function previewFiles(files) {
         var preview = document.querySelector("#toast__form__preview");
         function readAndPreview(file) {
@@ -296,25 +297,18 @@ $(document).ready(() => {
         }
     }
 
+    // bắt sự kiện khi click upload file
     $("div[name='media']").mouseup((e) => {
         $(".toast__form__inputfile").first().trigger("click");
     });
 
+    // bắt kiện khi sau khi file được upload
     $(".toast__form__inputfile").change((e) => {
         const files = e.currentTarget.files;
         previewFiles(files);
     });
 
-    $("#toast__form__preview div::before").click(() => {
-        console.log(click);
-    });
-
-    $(".preview__item__remove").click((e) => {
-        let files = document.getElementsByClassName("toast__form__inputfile")[0]
-            .files;
-        console.log(files.item(0));
-    });
-
+    // slick carousel
     $(".header__images").slick({
         infinite: false,
         adaptiveHeight: true,
@@ -323,5 +317,48 @@ $(document).ready(() => {
         arrows: true,
         mobileFirst: true,
         speed: 200,
+    });
+
+    // sự kiện nút follow và unfollow
+    $(".follow__btn").click((e) => {
+        e.preventDefault();
+        const followid = $(e.currentTarget).data("user");
+        const token = $("meta[name='csrf-token']").attr("content");
+        const method =
+            $(e.currentTarget).data("follow") === "follow"
+                ? "POST"
+                : $(e.currentTarget).data("follow") === "unfollow"
+                ? "DELETE"
+                : null;
+        if (method === null) return;
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": token,
+            },
+            type: "POST",
+            data: {
+                _method: method,
+                _token: token,
+            },
+            url: `/user/follow/${followid}`,
+            success: (data) => {
+                if (data["errors"] === null) {
+                    $(e.currentTarget)
+                        .children(".follow__state")
+                        .text(data["status"]);
+                    $(e.currentTarget).data("follow", data["nextAction"]);
+                    if (data["nextAction"] == "unfollow") {
+                        setTimeout(() => {
+                            $(e.currentTarget).addClass("followed");
+                        }, 500);
+                    } else {
+                        $(e.currentTarget).removeClass("followed");
+                    }
+                }
+            },
+            error: () => {
+                console.log("Error");
+            },
+        });
     });
 });

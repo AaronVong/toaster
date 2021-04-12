@@ -48,14 +48,30 @@
 * Giải pháp:
  - Chưa có
 
+4. (Doublycate Bugs.no.1) Events không được bắt khi append HTML.
+* Mô tả:
+    - khi append html mới vào DOM các event được set trước dó sẽ không được bắt
+
+* Mong muốn:
+    - mọi event được set đều hoạt động bình thường khi append html mới vào
+
+* Nguyên nhân:
+    - vì sử dụng html(), append(),...
+
+* Tình trạng: 
+    - chưa giải quyết
+
+* Giải pháp: 
+    - https://stackoverflow.com/questions/14783268/html-added-with-append-is-not-triggering-events
+
 /****************** Need To Do ******************/ 
 1. Chỉnh Sửa Toasts (nội dung, hình ảnh)
 2. Cho phép remove hình trong màn hình preview khi viết Toast
 3. Chức năng Comment
-3. Chức năng kết bạn
+3. Chức năng kết bạn (HT)
 4. Chức năng tìm kiếm người dùng khác.
 5. Hiện thị toast trên bản tin dựa trên danh sách bạn bè
 6. Xem danh sách bạn bè
 7. Chức năng chia sẻ toast.
-8. Chức năng upload ảnh avatar cho user.
+8. Chức năng upload ảnh avatar cho user. (HT)
 

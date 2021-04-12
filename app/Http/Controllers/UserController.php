@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Toast;
 use App\Models\User;
-use Facade\FlareClient\Http\Exceptions\NotFound;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -18,7 +18,7 @@ class UserController extends Controller
     }
 
     public function updateUser($id, Request $request){
-        if(!$request->ajax()) return back();
+        //if(!$request->ajax()) return back();
         $user = User::find($id);
         $this->authorize('update',$user);
         $validator = Validator::make($request->all(),[
@@ -26,6 +26,7 @@ class UserController extends Controller
             "phone"=>"required|digits_between:10,11",
             "date" =>"required|date",
             "password" => "max:255",
+            "image" => "mimes:jpeg,jpg,png,gif|max:8192"
         ],[
             "name.required" => "Tên không thể để trống",
             "phone.required" => "Số điện thoại không thể để trống",
@@ -33,19 +34,31 @@ class UserController extends Controller
             "phone.digits_between" => "Số điện thoại chỉ có tối đa từ :min - :max số",
             "date.date" => "Định dạng ngày không hợp lệ",
             "name.max" => "Tên chỉ có thể chứa tối đa :max ký tự",
-            "password.max" => "Mật khẩu chỉ có thể chứa tối đa :max ký tự"
-        ]);
+            "password.max" => "Mật khẩu chỉ có thể chứa tối đa :max ký tự",
+            "image.mimes" => "Hình ảnh bạn upload không được hộ trợ.",
+        ])->validateWithBag("profile");
 
-        if(!$validator->fails()){
             $user->name = $request->name;
             $user->phone = $request->phone;
             $user->date = $request->date;
             if(strlen($request->password) > 0){
                 $user->password = Hash::make($request->password);
             }
+
+            if($request->hasFile('image') === true){
+                $image = $request->file('image');
+                $dt = Carbon::now('Asia/Ho_Chi_Minh');
+                $uname = $user->username;
+                $extension = $image->extension();
+                $filename = $uname.$dt->format("YmdHis").".".$extension;
+                $imageStored = $image->storeAs("userimages", $filename, "public");
+                if($imageStored!==false && Storage::disk("public")->exists("userimages/".$user->image)){
+                    Storage::disk("public")->delete("userimages/".$user->image);
+                }
+                $user->image = $filename;
+            }
             $user->save();
-        }
-        return response()->json(["error" => $validator->getMessageBag(),"isFailed"=>$validator->fails()],200, ["Content-Type"=>"json/application"]);
+        return back();
     }
 
     // lấy tất cả toast của user
@@ -80,18 +93,48 @@ class UserController extends Controller
             $error[]="Not Found";
         }else{
             $toasts =  Toast::latest()->with(['user','likes'])->whereHas("likes",function ($like) use ($user) {
-                return$like->where("user_id",$user->id);
+                return $like->where("user_id",$user->id);
             })->simplePaginate(6);
         }
-
         if($request->ajax()){
             $view = count($error) > 0 ? view("errors.notfound-text")->render() : view("toast.toasts",["toasts"=>$toasts])->render();
             return response()->json(["html" => $view,"error"=>$error]);
         }
-
         if(count($error)>0){
             return view("errors.notfound");
         }
         return view("user.profile",["user"=>$user, 'toasts' => $toasts]);
+    }
+
+    public function followUser($followId, Request $request){
+        if(!$request->ajax())return;
+
+        $user = auth()->user();
+        $followUser = User::find($followId);
+        if($followUser !==null){
+            $followUser->followers()->attach($user->id);
+            return response()->json(['status'=>'following', "errors"=>null, 'nextAction' => 'unfollow']);
+        }
+
+        return response()->json(["errors"=>['Xảy ra lỗi']]);
+    }
+
+    public function unFollowUser($unfollowId, Request $request){
+        if(!$request->ajax())return;
+
+        $user = auth()->user();
+        $unfollowUser = User::find($unfollowId);
+        if($unfollowUser !==null){
+            $unfollowUser->followers()->detach($user->id);
+            return response()->json(['status'=>'follow', "errors"=>null, 'nextAction' => 'follow']);
+        }
+
+        return response()->json(["errors"=>['Xảy ra lỗi']]);
+    }
+
+    public function searchUser(Request $request){
+        $users = User::with(['toasts','likes'])->where('username','like', '%'.$request->username.'%')
+        ->orWhere('name','like', '%'.$request->username.'%')->get();
+        return view('user.search',["users"=>$users, 'key'=>$request->username]);
     }
 }

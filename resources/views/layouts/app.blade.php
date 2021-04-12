@@ -18,6 +18,7 @@
     <script type="module" src="{{ asset('js/index.js') }}"></script>
 </head>
 <body class="bg-black">
+
     <div id="layer" class="absolute w-full h-full z-10 bg-red top-0 left-0 hidden"></div>
     <div class="container lg:container xl:container mx-auto text-gray-300 h-full">
         @yield('content')
@@ -47,12 +48,23 @@
         @include("forms.form_toast")
         </div>
     </div>
+
     <!-- Modal chỉnh sửa người dùng -->
+    @if($errors->profile->any())
+        <script>
+            $(document).ready(()=>{
+                $(window).on("load",()=>{
+                    console.log($("button[modal='editprofile']").first());
+                    $("button[modal='editprofile']").first().trigger('click');
+                });
+            })
+        </script>
+    @endif
     <div class="modal w-full h-full" id="editprofile">
         <div class="modal__content text-gray-300 w-full h-full lg:w-2/6 lg:h-auto lg:mt-12 lg:mx-auto">
             <span class="modal__close">&times;</span>
             <h1 class="text-3xl text-center">Chỉnh sửa thông tin cá nhân</h1>
-            <form class="block w-full flex flex-col justify-center" id="updateuser-form" action="{{ route('user.update',auth()->user()) }}" method="post">
+            <form class="block w-full flex flex-col justify-center" id="updateuser-form" action="{{ route('user.update',auth()->user()) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method("PUT")
                 <div class="mb-3">
@@ -60,28 +72,53 @@
                     <input type="text"
                         class="w-full lg:w-full h-12 rounded-full border p-3 bg-transparent focus:outline-none focus:border focus:border-blue-500"
                         id="name" name="name" placeholder="Họ tên" value="{{auth()->user()->name}}" placeholder="Họ tên">
-                    <span class="text-red-600" name='error-name'></span>
+                    <span class="text-red-600" name='error-name'>
+                        @if($errors->profile->has('name'))
+                            {{$errors->profile->first('name')}}
+                        @endif
+                    </span>
                 </div>
                 <div class="mb-3">
                     <label>Số điện thoại:</label>
                     <input type="text"
                         class="w-full lg:w-full h-12 rounded-full border p-3 bg-transparent focus:outline-none focus:border focus:border-blue-500"
                         id="phone" name="phone" placeholder="Số điện thoại" value="{{auth()->user()->phone}}">
-                    <span class="text-red-600" name='error-phone'></span>
+                    <span class="text-red-600" name='error-phone'>
+                        @if($errors->profile->has('phone'))
+                            {{$errors->profile->first('phone')}}
+                        @endif
+                    </span>
                 </div>
                 <div class="mb-3">
                     <label>Ngày sinh:</label>
                     <input type="date"
                         class="w-full lg:w-full h-12 rounded-full border p-3 bg-transparent focus:outline-none focus:border focus:border-blue-500"
                         name="date" value="{{auth()->user()->date}}">
-                    <span class="text-red-600" name='error-date'></span>
+                    <span class="text-red-600" name='error-date'>
+                        @if($errors->profile->has('date'))
+                            {{$errors->profile->first('date')}}
+                        @endif
+                    </span>
                 </div>
                 <div class="mb-3">
                     <label>Mật khẩu:</label>
                     <input type="password"
                         class="w-full lg:w-full h-12 rounded-full border p-3 bg-transparent focus:outline-none focus:border focus:border-blue-500"
                         id="password" name="password" placeholder="Để trống để giữ nguyên Password">
-                    <span class="text-red-600" name='error-password'></span>
+                    <span class="text-red-600" name='error-password'>
+                        @if($errors->profile->has('password'))
+                            {{$errors->profile->first('password')}}
+                        @endif
+                    </span>
+                </div>
+                <div class="mb-3">
+                    <label>Ảnh đại diện:</label>
+                    <input type="file" name="image" class="w-full lg:w-full h-12 p-3 bg-transparent" accept="image/*">
+                    <span class="text-red-600" name='error-image'>
+                        @if($errors->profile->has('image'))
+                            {{$errors->profile->first('image')}}
+                        @endif
+                    </span>
                 </div>
                 <div class="mb-3 mx-auto">
                     <button type="submit" class="bg-blue-500 w-32 h-12 rounded-full hover:bg-blue-600 text-gray-300 focus:outline-none" id="updateuser">

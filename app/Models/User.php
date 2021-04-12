@@ -65,4 +65,17 @@ class User extends Authenticatable
     public function uploadedImages(){
         return $this->hasManyThrough(Toast::class, ToastImages::class);
     }
+
+    public function followings(){
+        return $this->belongsToMany(User::class, 'user_follows','user_id','follow_id');
+    }
+
+    public function followers(){
+        return $this->belongsToMany(User::class, 'user_follows','follow_id','user_id');
+    }
+
+    public function followed($id){
+        $followUser = $this->followings()->where('follow_id',$id)->first();
+        return $followUser !== null ? true : false;
+    }
 }

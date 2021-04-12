@@ -176,3 +176,27 @@ html {
 #toast__form__preview div:hover .preview__item__remove {
     display: block;
 }
+
+.followed {
+    position: relative;
+}
+
+.followed:hover {
+    background-color: #ef4444 !important;
+}
+.followed:hover .follow__state {
+    display: none;
+}
+
+.followed::before {
+    position: absolute;
+    content: "Unfollow";
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    display: none;
+}
+
+.followed:hover::before {
+    display: block;
+}

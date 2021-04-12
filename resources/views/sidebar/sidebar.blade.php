@@ -1,17 +1,18 @@
 <div class="sticky top-0">
-    <!-- <div class="user-search">
-        <form class="search__form">
-            <div class="input-group">
+    <div>
+        <form action="{{ route('user.search') }}" method="GET" autocomplete='off' class="usersearch">
+            @csrf
+            <div class="flex items-center w-full justify-center py-3">
                 <span
-                    class="input-group-text bg-dark shadow-none border-end-0 border-dark d-flex justify-content-center align-items-center"
-                    id="basic-addon1"><i class="fas fa-search text-secondary"></i></span>
+                    class="bg-gray-900 shadow-none border-end-0 border-dark flex justify-center items-center w-12 h-12 rounded-l-xl">
+                        <i class="fas fa-search"></i>
+                    </span>
                 <input type="text"
-                    class="form-control bg-dark border-dark border-start-0 text-light shadow-none"
-                    placeholder="Search for user" aria-label="Username"
-                    aria-describedby="basic-addon1">
+                    class="bg-gray-900 rounded-r-xl text-light shadow-none focus:outline-none text-white h-12 w-4/6"
+                    placeholder="Search for user" name='username' autocomplete='off'>
             </div>
         </form>
-    </div> -->
+    </div>
     @guest
         <div class="w-full mt-2 flex flex-col items-center">
             <a href="{{ route('login.index') }}" class="w-3/6 h-12 rounded-full bg-blue-500 mb-2 text-center py-3 hover:bg-blue-600">Đăng nhập</a>

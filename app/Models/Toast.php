@@ -32,4 +32,8 @@ class Toast extends Model
     public function toastImages(){
         return $this->hasMany(ToastImages::class);
     }
+
+    public function comments(){
+        return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
+    }
 }

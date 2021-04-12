@@ -16,8 +16,8 @@ class CreateToastImagesTable extends Migration
         Schema::create('toast_images', function (Blueprint $table) {
             $table->id();
             $table->string("imagename");
-            $table->foreignId("toast_id")->constrained()->onDelete("cascade");
-            $table->foreignId("user_id")->constrained()->onDelete("cascade");
+            $table->foreignId("toast_id")->constrained('toasts', 'id')->onDelete("cascade");
+            $table->foreignId("user_id")->constrained('users', 'id')->onDelete("cascade");
             $table->timestamps();
         });
     }

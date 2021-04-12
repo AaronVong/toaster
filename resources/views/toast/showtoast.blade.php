@@ -8,8 +8,11 @@
     <!-- App Contents -->
     <div class="col-span-3 lg:col-span-2 relative">
         <h1 class="fz-6 border-b border-gray-500 font-bold text-3xl p-2">Home</h1>
-        <section id="toast-detail">
+        <section id="toast-dashboard">
             @include("toast.toast",$toast)
+        </section>
+        <section id="comments">
+             @include('toast.partials.replies', ['comments' => $toast->comments, 'toast_id'=>$toast->id])
         </section>
     </div>
     <!-- Sidebar -->
