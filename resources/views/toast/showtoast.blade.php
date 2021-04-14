@@ -6,7 +6,7 @@
         @include("nav.nav")
     </div>
     <!-- App Contents -->
-    <div class="col-span-3 lg:col-span-2 relative">
+    <div class="col-span-3 lg:col-span-2">
         <h1 class="fz-6 border-b border-gray-500 font-bold text-3xl p-2">Home</h1>
         <section id="toast-dashboard">
             @include("toast.toast",$toast)

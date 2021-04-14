@@ -1,5 +1,6 @@
-<div class="sticky top-0">
-    <div>
+<div class="fixed bottom-0 left-0  bg-gray-900 w-full lg:sticky lg:top-0 lg:bg-transparent">
+    @auth
+    <div class="lg:block hidden">
         <form action="{{ route('user.search') }}" method="GET" autocomplete='off' class="usersearch">
             @csrf
             <div class="flex items-center w-full justify-center py-3">
@@ -13,6 +14,7 @@
             </div>
         </form>
     </div>
+    @endauth
     @guest
         <div class="w-full mt-2 flex flex-col items-center">
             <a href="{{ route('login.index') }}" class="w-3/6 h-12 rounded-full bg-blue-500 mb-2 text-center py-3 hover:bg-blue-600">Đăng nhập</a>

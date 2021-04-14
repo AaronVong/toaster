@@ -26,7 +26,7 @@ class UserController extends Controller
             "phone"=>"required|digits_between:10,11",
             "date" =>"required|date",
             "password" => "max:255",
-            "image" => "mimes:jpeg,jpg,png,gif|max:8192"
+            "image" => "mimes:jpeg,jpg,png,gif|max:2048"
         ],[
             "name.required" => "Tên không thể để trống",
             "phone.required" => "Số điện thoại không thể để trống",
@@ -36,6 +36,7 @@ class UserController extends Controller
             "name.max" => "Tên chỉ có thể chứa tối đa :max ký tự",
             "password.max" => "Mật khẩu chỉ có thể chứa tối đa :max ký tự",
             "image.mimes" => "Hình ảnh bạn upload không được hộ trợ.",
+            "image.max" => "Vui lòng chọn file có kích thước < 2Mb",
         ])->validateWithBag("profile");
 
             $user->name = $request->name;

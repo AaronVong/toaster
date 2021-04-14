@@ -8,8 +8,8 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ToastController;
 use App\Http\Controllers\ToastLikeController;
 use App\Http\Controllers\UserController;
-
-
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,3 +64,20 @@ Route::get("/notready",function(){
 Route::post("/comment",[CommentController::class, 'store'])->name('comment.store');
 Route::post("/reply", [CommentController::class, 'replyStore'])->name('comment.reply');
 Route::delete("/comment/{comment}/delete",[CommentController::class, "destroy"])->name("comment.destroy");
+
+Route::get('/storage/{foldername}/{filename}', function ($foldername, $filename)
+{
+    // folder path trên hosting
+    $path = storage_path('app/public/'. $foldername . '/' . $filename);
+    // echo $path;
+    // return;
+    if (!File::exists($path)) {
+        abort(404);
+    }
+    $file = File::get($path);
+    $type = File::mimeType($path);
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+});

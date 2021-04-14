@@ -7,7 +7,7 @@
     </div>
 
     <!-- App Contents -->
-    <div class="col-span-3 lg:col-span-2 relative">
+    <div class="col-span-3 lg:col-span-2">
         <div class="w-full flex divide-x divide-gray-500 bg-gray-900">
             <div class="flex-shrink-0 flex-grow-0 w-2/6 md:w-1/6">
                 <div class="toast__left flex-grow-0 flex-shrink-0 max-w-xs pt-2 h-full flex justify-center">
@@ -74,7 +74,7 @@
         </section>
     </div>
     <!-- Sidebar -->
-    <div id="sidebar" class="relative grid-cols-1 hidden lg:block">
+    <div id="sidebar" class="relative grid-cols-1">
         @include('sidebar.sidebar')
     </div>
 </div>

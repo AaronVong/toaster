@@ -156,6 +156,15 @@ $(document).ready(() => {
                     console.log(data["error"]);
                 }
                 $("#toast-dashboard").html(data["html"]);
+                $(".header__images").slick({
+                    infinite: false,
+                    adaptiveHeight: true,
+                    adaptiveWidth: true,
+                    dots: true,
+                    arrows: true,
+                    mobileFirst: true,
+                    speed: 200,
+                });
             },
         });
     });

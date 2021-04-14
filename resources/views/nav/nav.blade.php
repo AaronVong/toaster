@@ -28,6 +28,12 @@
                 <span class="font-bold hidden lg:inline-block">Profile</span>
             </a>
         </li>
+        <li class="navbar__items relative mb-6 lg:w-4/6 h-12 cursor-pointer lg:hidden" >
+            <div class="flex items-center w-full h-full pill-hover modal__btn" modal="search">
+                <i class="fas fa-search fa-2x lg:w-2/6"></i>
+                <span class="font-bold hidden lg:inline-block">Search</span>
+            </div>
+        </li>
         <li class="navbar__items relative lg:h-32 lg:w-4/6">
             <button type="button"
                 class="modal__btn rounded-full h-12 w-12 flex items-center bg-blue-600 justify-center lg:w-full lg:h-12 focus:outline-none focus:ring-2 hover:bg-blue-700" modal="quicktoast">
@@ -35,8 +41,8 @@
                 <span class="font-bold hidden">Toast</span>
             </button>
         </li>
+        @endauth
     </ul>
-    @endauth
     @auth
     <div class="nav__user-control flex items-center cursor-pointer mt-auto lg:w-4/6 px-4 pill-hover">
         <div class="user-control__img flex justify-center items-center lg:mr-5">

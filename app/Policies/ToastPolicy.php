@@ -21,6 +21,6 @@ class ToastPolicy
     }
 
     public function delete(User $user, Toast $toast){
-        return $user->id === $toast->user_id;
+        return $user->id == $toast->user_id;
     }
 }

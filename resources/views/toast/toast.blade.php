@@ -30,12 +30,12 @@
                                     </button>
                                 </form>
                             @endcan
-                            <div class="my-3 text-center">
+                            <!-- <div class="my-3 text-center">
                                 <div class="cursor-pointer text-gray-600 hover:text-blue-400 focus:outline-none" data-route="{{route('toast.update',$toast)}}" data-action='toast.update'>
                                     <i class="far fa-edit"></i>
                                     Chỉnh sửa toast
                                 </div>
-                            </div>
+                            </div> -->
                         @endauth
                         <div class="my-3 text-center">
                             <div class="cursor-pointer">
@@ -82,22 +82,24 @@
                         @endif
                         <span style="font-size: 10px" class="p-0 m-0 count">{{ $toast->likes->count()  }} {{ Str::plural('', $toast->likes->count()) }}</span>
                     </div>
-                    <div class="actions__comment mr-3">
-                        @csrf
-                        <button class="modal__btn focus:outline-none text-indigo-600" type="button" modal='comment'>
+                    <div class="actions__comment mr-3 flex mr-6">
+                        <button class="modal__btn focus:outline-none text-indigo-600  mr-3" type="button" modal='comment'>
                             <i class="fas fa-comment"></i>
                         </button>
+                        <span style="font-size: 10px" class="p-0 m-0 count">{{ App\Models\Comment::recivedComments($toast)  }} {{ Str::plural('', App\Models\Comment::recivedComments($toast)) }}</span>
                     </div>
                     @include('modals.comment', ['toast_id'=>$toast->id, "user" => $toast->user, 'comment_id' => null])
                 @endauth
                 @guest
                     <div class="inline-block mr-3">
                         <button type="button" class="modal__btn focus:outline-none text-pink-600" modal="auth"><i class="fas fa-heart"></i></button>
+                        <span style="font-size: 10px" class="p-0 m-0 count">{{ $toast->likes->count()  }} {{ Str::plural('', $toast->likes->count()) }}</span>
                     </div>
                     <div class="inline-block mr-3">
                       <button class="modal__btn focus:outline-none text-indigo-600" type="button" modal="auth">
                             <i class="fas fa-comment"></i>
-                        </button>                    
+                        </button>
+                        <span style="font-size: 10px" class="p-0 m-0 count">{{ App\Models\Comment::recivedComments($toast)  }} {{ Str::plural('', App\Models\Comment::recivedComments($toast)) }}</span>                    
                     </div>     
                 @endguest
             </div>

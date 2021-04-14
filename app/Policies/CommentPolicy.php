@@ -21,6 +21,6 @@ class CommentPolicy
     }
 
     public function delete(User $guest, Comment $comment ){
-        return $guest->id === $comment->user->id;
+        return $guest->id == $comment->user->id;
     }
 }

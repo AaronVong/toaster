@@ -41,7 +41,7 @@ class ToastController extends Controller
         ],[
             "content.required" => "Hãy điền nội dung cho Toast",
             "images.*.mimes" => "Định dạng hình ảnh không được hộ trợ",
-            "images.*.max" => "Hình ảnh có kích thước quá lớn",
+            "images.*.max" => "Hình ảnh có kích thước quá lớn > 8M",
             "images.max" =>"Tối đa :max hình được phép upload",
         ])->validateWithBag('toast');
 

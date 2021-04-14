@@ -7,7 +7,7 @@
     </div>
 
     <!-- App Contents -->
-    <div class="col-span-3 lg:col-span-2 relative">
+    <div class="col-span-3 lg:col-span-2">
         <h1 class="fz-6 border-b border-gray-500 font-bold text-3xl p-2">Home</h1>
         @auth @include("forms.form_toast") @endauth
         <section id="toast-dashboard">
@@ -16,7 +16,7 @@
         </section>
     </div>
     <!-- Sidebar -->
-    <div id="sidebar" class="relative grid-cols-1 lg:block hidden">
+    <div id="sidebar" class="relative grid-cols-1">
         @include('sidebar.sidebar')
     </div>
 </div>

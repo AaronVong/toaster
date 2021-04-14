@@ -7,7 +7,7 @@
     </div>
 
     <!-- App Contents -->
-    <div class="col-span-3 lg:col-span-2 relative">
+    <div class="col-span-3 lg:col-span-2">
         <h1 class="fz-6 border-b border-gray-500 font-bold text-3xl p-2">Tìm kiếm người dùng '{{$key}}'</h1>
         <section id="users">
             @foreach($users as $user)
@@ -32,7 +32,7 @@
         </section>
     </div>
     <!-- Sidebar -->
-    <div id="sidebar" class="relative grid-cols-1 hidden lg:block">
+    <div id="sidebar" class="relative grid-cols-1">
         @include('sidebar.sidebar')
     </div>
 </div>

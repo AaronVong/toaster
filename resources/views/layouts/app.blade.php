@@ -48,7 +48,21 @@
         @include("forms.form_toast")
         </div>
     </div>
-
+    <!-- Modal Search -->
+    <div class="modal" id="search">
+        <form action="{{ route('user.search') }}" method="GET" autocomplete='off' class="usersearch">
+            @csrf
+            <div class="flex items-center w-full justify-center py-3">
+                <span
+                    class="bg-gray-900 shadow-none border-end-0 border-dark flex justify-center items-center w-12 h-12 rounded-l-xl">
+                        <i class="fas fa-search text-white"></i>
+                    </span>
+                <input type="text"
+                    class="bg-gray-900 rounded-r-xl text-light shadow-none focus:outline-none text-white h-12 w-4/6"
+                    placeholder="Search for user" name='username' autocomplete='off'>
+            </div>
+        </form>
+    </div>
     <!-- Modal chỉnh sửa người dùng -->
     @if($errors->profile->any())
         <script>
