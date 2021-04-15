@@ -12,7 +12,7 @@ class AdminController extends Controller
 {
     function __construct()
     {
-        return $this->middleware(["auth","admin"]);
+        $this->middleware(["auth","admin"]);
     }
 
     function index(){

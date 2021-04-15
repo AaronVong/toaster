@@ -10,7 +10,7 @@ class CommentController extends Controller
 {
     function __construct()
     {
-        return $this->middleware('auth');
+        $this->middleware('auth');
     }
     function store(Request $request){
         $this->validate($request, [

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 15, 2021 at 06:51 AM
+-- Generation Time: Apr 15, 2021 at 01:53 PM
 -- Server version: 8.0.21
 -- PHP Version: 8.0.1
 
@@ -41,14 +41,14 @@ CREATE TABLE IF NOT EXISTS `comments` (
   KEY `comments_user_id_foreign` (`user_id`),
   KEY `comments_parent_id_foreign` (`parent_id`),
   KEY `comments_commentable_id_foreign` (`commentable_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `comments`
 --
 
 INSERT INTO `comments` (`id`, `user_id`, `parent_id`, `comment`, `commentable_id`, `commentable_type`, `created_at`, `updated_at`) VALUES
-(1, 2, NULL, 'Xin chào', 1, 'App\\Models\\Toast', '2021-04-14 23:26:35', '2021-04-14 23:26:35');
+(2, 2, NULL, 'Comment dưới đây', 2, 'App\\Models\\Toast', '2021-04-15 03:36:36', '2021-04-15 03:36:36');
 
 -- --------------------------------------------------------
 
@@ -85,14 +85,14 @@ CREATE TABLE IF NOT EXISTS `likes` (
   PRIMARY KEY (`id`),
   KEY `likes_user_id_foreign` (`user_id`),
   KEY `likes_toast_id_foreign` (`toast_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `likes`
 --
 
 INSERT INTO `likes` (`id`, `user_id`, `toast_id`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, '2021-04-14 23:27:21', '2021-04-14 23:27:21');
+(5, 3, 2, '2021-04-15 03:52:38', '2021-04-15 03:52:38');
 
 -- --------------------------------------------------------
 
@@ -176,14 +176,14 @@ CREATE TABLE IF NOT EXISTS `toasts` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `toasts_user_id_foreign` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `toasts`
 --
 
 INSERT INTO `toasts` (`id`, `content`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 'Chào mừng đến với Toaster! 🥰👋', 2, '2021-04-14 23:18:44', '2021-04-14 23:18:44');
+(2, 'Chào mừng đến với toast!🥰', 2, '2021-04-15 03:36:22', '2021-04-15 03:36:22');
 
 -- --------------------------------------------------------
 
@@ -203,13 +203,6 @@ CREATE TABLE IF NOT EXISTS `toast_images` (
   KEY `toast_images_toast_id_foreign` (`toast_id`),
   KEY `toast_images_user_id_foreign` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `toast_images`
---
-
-INSERT INTO `toast_images` (`id`, `imagename`, `toast_id`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 'aaronv202104151318440.jpg', 1, 2, '2021-04-14 23:18:44', '2021-04-14 23:18:44');
 
 -- --------------------------------------------------------
 

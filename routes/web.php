@@ -9,8 +9,8 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ToastController;
 use App\Http\Controllers\ToastLikeController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
