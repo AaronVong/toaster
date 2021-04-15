@@ -37,12 +37,18 @@ Route::get('/register',[RegisterController::class,"index"])->name('register.inde
 Route::post('/register',[RegisterController::class,"store"])->name("register.create");
 
 Route::post("/logout",[LogoutController::class,"store"])->name('logout.index');
+Route::get("/logout",function(){
+    return back();
+})->middleware("auth");
 
 Route::get('/',[ToastController::class,'index'])->name('home.index');
 Route::get('/home',[ToastController::class,'index'])->name('home.index');
 Route::get('/explore',[ToastController::class,'explore'])->name("home.explore");
 Route::get('/toast/{toast}',[ToastController::class,'showToast'])->name("toast.show");
 Route::post("/toast",[ToastController::class,'store'])->name("toast.create");
+Route::get("/toast",function(){
+    return redirect()->route("home.index");
+});
 Route::delete("/toast/{toast}/delete", [ToastController::class,"destroy"])->name("toast.delete");
 Route::put("/toast/{toast:id}}/update",[ToastController::class,"update"])->name("toast.update");
 
@@ -62,8 +68,15 @@ Route::get("/notready",function(){
     return view("errors.notready");
 })->name("error.notready");
 
+Route::get("/comment", function(){
+    return back();
+});
 Route::post("/comment",[CommentController::class, 'store'])->name('comment.store');
+Route::get("/reply", function(){
+    return back();
+});
 Route::post("/reply", [CommentController::class, 'replyStore'])->name('comment.reply');
+
 Route::delete("/comment/{comment}/delete",[CommentController::class, "destroy"])->name("comment.destroy");
 
 Route::get('/storage/{foldername}/{filename}', function ($foldername, $filename)

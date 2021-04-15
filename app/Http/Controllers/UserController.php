@@ -134,8 +134,9 @@ class UserController extends Controller
     }
 
     public function searchUser(Request $request){
-        $users = User::with(['toasts','likes'])->where('username','like', '%'.$request->username.'%')
-        ->orWhere('name','like', '%'.$request->username.'%')->get();
+        $users = User::with(['toasts','likes'])->where("role_id",'1')->where(function($query) use($request){
+            $query->where('name','like','%'.$request->username.'%')->orWhere('username','like','%'.$request->username.'%');
+        })->get();
         return view('user.search',["users"=>$users, 'key'=>$request->username]);
     }
 }
