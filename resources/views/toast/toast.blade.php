@@ -86,7 +86,7 @@
                         <button class="modal__btn focus:outline-none text-indigo-600  mr-3" type="button" modal='comment'>
                             <i class="fas fa-comment"></i>
                         </button>
-                        <span style="font-size: 10px" class="p-0 m-0 count">{{ App\Models\Comment::recivedComments($toast)  }} {{ Str::plural('', App\Models\Comment::recivedComments($toast)) }}</span>
+                        <span style="font-size: 10px" class="p-0 m-0 count">{{ App\Models\Toast::receivedComments($toast)  }} {{ Str::plural('', App\Models\Toast::receivedComments($toast)) }}</span>
                     </div>
                     @include('modals.comment', ['toast_id'=>$toast->id, "user" => $toast->user, 'comment_id' => null])
                 @endauth

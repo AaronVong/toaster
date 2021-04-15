@@ -23,6 +23,7 @@ class User extends Authenticatable
         'username',
         'phone',
         'date',
+        'role_id',
     ];
 
     /**
@@ -77,5 +78,9 @@ class User extends Authenticatable
     public function followed($id){
         $followUser = $this->followings()->where('follow_id',$id)->first();
         return $followUser !== null ? true : false;
+    }
+
+    public function role(){
+        return $this->belongsTo(Role::class);
     }
 }

@@ -36,4 +36,12 @@ class Toast extends Model
     public function comments(){
         return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
     }
+
+    static public function receivedComments(Toast $toast){
+        $sum = $toast->comments->count();
+        foreach($toast->comments as $comment){
+            $sum+= $comment->replies->count();
+        }
+        return $sum;
+    }
 }

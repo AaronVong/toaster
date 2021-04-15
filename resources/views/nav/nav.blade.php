@@ -34,7 +34,7 @@
                 <span class="font-bold hidden lg:inline-block">Search</span>
             </div>
         </li>
-        <li class="navbar__items relative lg:h-32 lg:w-4/6">
+        <li class="relative lg:h-32 lg:w-4/6">
             <button type="button"
                 class="modal__btn rounded-full h-12 w-12 flex items-center bg-blue-600 justify-center lg:w-full lg:h-12 focus:outline-none focus:ring-2 hover:bg-blue-700" modal="quicktoast">
                 <i class="fas fa-feather-alt fa-2x lg:hidden"></i>

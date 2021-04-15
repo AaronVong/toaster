@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -81,3 +82,8 @@ Route::get('/storage/{foldername}/{filename}', function ($foldername, $filename)
 
     return $response;
 });
+
+Route::get("/dashboard",[AdminController::class, "index"])->name("admin.dashboard");
+Route::get("/members", [AdminController::class, "members"])->name("admin.members");
+Route::post("/members",[AdminController::class, "addMember"])->name("admin.members.add");
+Route::get("/admin/notready",[AdminController::class, "notReady"])->name("admin.notready");

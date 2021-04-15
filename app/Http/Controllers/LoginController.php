@@ -25,6 +25,12 @@ class LoginController extends Controller
         if(!Auth::attempt($req->only('email','password'))){
             return back()->with("loginStatus","Mật khẩu hoặc email không đúng");
         }
-        return redirect()->route('home.index');
+
+        if(Auth::user()->role_id == 1){
+            return redirect()->route("home.index");
+        }
+        else{
+            return redirect()->route("admin.dashboard");
+        }
     }
 }
