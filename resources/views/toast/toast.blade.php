@@ -99,7 +99,7 @@
                       <button class="modal__btn focus:outline-none text-indigo-600" type="button" modal="auth">
                             <i class="fas fa-comment"></i>
                         </button>
-                        <span style="font-size: 10px" class="p-0 m-0 count">{{ App\Models\Comment::recivedComments($toast)  }} {{ Str::plural('', App\Models\Comment::recivedComments($toast)) }}</span>                    
+                        <span style="font-size: 10px" class="p-0 m-0 count">{{ App\Models\Toast::receivedComments($toast)  }} {{ Str::plural('', App\Models\Toast::receivedComments($toast)) }}</span>
                     </div>     
                 @endguest
             </div>
