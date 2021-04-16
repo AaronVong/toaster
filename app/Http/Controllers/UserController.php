@@ -6,6 +6,7 @@ use App\Models\Toast;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -139,4 +140,5 @@ class UserController extends Controller
         })->get();
         return view('user.search',["users"=>$users, 'key'=>$request->username]);
     }
+
 }

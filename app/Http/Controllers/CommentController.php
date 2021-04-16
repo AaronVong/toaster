@@ -16,6 +16,7 @@ class CommentController extends Controller
         $this->validate($request, [
             "comment" => "required|max:255"
         ]);
+        
         $comment = new Comment;
         $comment->comment = $request->comment;
         $comment->user()->associate($request->user());
